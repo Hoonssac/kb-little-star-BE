@@ -1,0 +1,53 @@
+package com.kbstar.littlestar.controller;
+
+import com.kbstar.littlestar.domain.User;
+import com.kbstar.littlestar.service.UserService;
+import jakarta.servlet.http.HttpSession;
+import lombok.RequiredArgsConstructor;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.*;
+
+import java.util.Map;
+
+@RestController
+@RequestMapping("/api/auth")
+@RequiredArgsConstructor
+public class AuthController {
+    private final UserService userService;
+
+    @PostMapping("/signup")
+    public ResponseEntity<?> signup(@RequestBody Map<String, String> body) {
+        String username = body.get("username");
+        String password = body.get("password");
+        User user = userService.signup(username, password);
+        return ResponseEntity.ok(user);
+    }
+
+    @PostMapping("/login")
+    public ResponseEntity<?> login(@RequestBody Map<String, String> body, HttpSession session) {
+        String username = body.get("username");
+        String password = body.get("password");
+
+        User user = userService.login(username, password);
+
+        session.setAttribute("user", user); // 세션에 유저 저장
+
+        return ResponseEntity.ok(user);
+    }
+
+    @PostMapping("/logout")
+    public ResponseEntity<?> logout(HttpSession session) {
+        session.invalidate(); // 세션 만료
+        return ResponseEntity.ok("로그아웃 완료");
+    }
+
+    @GetMapping("/me")
+    public ResponseEntity<?> me(HttpSession session) {
+        User user = (User) session.getAttribute("user");
+        if (user == null) {
+            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("로그인되지 않았습니다.");
+        }
+        return ResponseEntity.ok(user);
+    }
+}
