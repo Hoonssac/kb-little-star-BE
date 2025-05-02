@@ -1,6 +1,7 @@
 package com.kbstar.littlestar.service;
 
 import com.kbstar.littlestar.domain.User;
+import com.kbstar.littlestar.dto.SignupRequest;
 import com.kbstar.littlestar.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -13,17 +14,15 @@ public class UserService {
     private final PasswordEncoder passwordEncoder;
 
     // 회원가입
-    public User signup(String username, String password) {
-        // username 중복 처리
-        if (userRepository.findByUsername(username).isPresent()) {
-            throw new IllegalArgumentException("이미 존재하는 사용자입니다.");
-        }
-
+    public User signup(SignupRequest request) {
         // user 추가
         User user = new User();
-        user.setUsername(username);
-        user.setPassword(passwordEncoder.encode(password));
-
+        user.setUsername(request.getUsername());
+        user.setPassword(passwordEncoder.encode(request.getPassword()));
+        user.setAge(request.getAge());
+        user.setMileage(request.getMileage());
+        user.setPokemonIds(request.getPokemonIds());
+        user.setMainPokemonId(request.getMainPokemonId());
         return userRepository.save(user);
     }
 

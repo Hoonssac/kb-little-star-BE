@@ -8,6 +8,8 @@ import org.springframework.security.config.annotation.web.configuration.EnableWe
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
+import org.springframework.web.servlet.config.annotation.CorsRegistry;
+import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 
 @Configuration
 @EnableWebSecurity
@@ -24,11 +26,29 @@ public class SecurityConfig {
         http
                 .csrf(csrf -> csrf.disable()) // 프론트 요청 외에 비활성화
                 .authorizeHttpRequests(auth -> auth
-                        .requestMatchers("/api/auth/**").permitAll()
+                        .requestMatchers(
+                                "/api/auth/signup",
+                                "/api/auth/login",
+                                "/api/auth/check-username"
+                        ).permitAll()
                         .anyRequest().authenticated())
                 .formLogin(form -> form.disable()) // 기본 폼 사용 안 함
                 .httpBasic(httpBasic -> httpBasic.disable()); // Basic 인증 사용 안 함
 
         return http.build();
+    }
+
+    // CORS 설정
+    @Bean
+    public WebMvcConfigurer corsConfigurer() {
+        return new WebMvcConfigurer() {
+            @Override
+            public void addCorsMappings(CorsRegistry registry) {
+                registry.addMapping("/**")
+                        .allowedOrigins("http://localhost:5173") // Vite 개발 서버
+                        .allowedMethods("*")
+                        .allowCredentials(true); // ✅ 세션 쿠키 전달 허용
+            }
+        };
     }
 }

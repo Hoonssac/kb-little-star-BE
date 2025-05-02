@@ -7,7 +7,6 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import java.time.LocalDate;
-import java.util.ArrayList;
 import java.util.List;
 
 @Entity
@@ -24,22 +23,21 @@ public class User {
 
     private String password;
 
-    private int mileage;
-
-    private int ticketCount;
-
-    private Long mainPokemonId;
-
     private LocalDate lastAnsweredDate;
 
-    @ElementCollection
-    @CollectionTable(name = "user_pokemon_ids", joinColumns = @JoinColumn(name = "user_id"))
-    @Column(name = "pokemon_id")
-    private List<Long> pokemonIds = new ArrayList<>();
+    private Integer age;
+
 
     @ElementCollection
-    @CollectionTable(name = "user_question_ids", joinColumns = @JoinColumn(name = "user_id"))
-    @Column(name = "question_id")
-    private List<Long> questionIds = new ArrayList<>();
+    private List<Integer> pokemonIds;
+
+    private Integer mainPokemonId;
+
+    @ElementCollection
+    private List<Integer> questionIds;
+
+    private Integer mileage;
+
+    private Integer ticketCount = 0;
 }
 
