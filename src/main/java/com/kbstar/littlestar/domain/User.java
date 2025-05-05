@@ -1,5 +1,7 @@
 package com.kbstar.littlestar.domain;
 
+import com.fasterxml.jackson.databind.PropertyNamingStrategies;
+import com.fasterxml.jackson.databind.annotation.JsonNaming;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -12,6 +14,7 @@ import java.util.List;
 @Entity
 @Table(name = "users")
 @Getter @Setter @NoArgsConstructor @AllArgsConstructor
+@JsonNaming(PropertyNamingStrategies.SnakeCaseStrategy.class)
 public class User {
 
     @Id
@@ -28,12 +31,12 @@ public class User {
     private Integer age;
 
 
-    @ElementCollection
+    @ElementCollection(fetch = FetchType.EAGER)
     private List<Integer> pokemonIds;
 
     private Integer mainPokemonId;
 
-    @ElementCollection
+    @ElementCollection(fetch = FetchType.EAGER)
     private List<Integer> questionIds;
 
     private Integer mileage;

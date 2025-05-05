@@ -1,5 +1,7 @@
 package com.kbstar.littlestar.domain;
 
+import com.fasterxml.jackson.databind.PropertyNamingStrategies;
+import com.fasterxml.jackson.databind.annotation.JsonNaming;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -14,19 +16,17 @@ import java.util.List;
 @NoArgsConstructor
 @AllArgsConstructor
 @Table(name = "pokemon")
+@JsonNaming(PropertyNamingStrategies.SnakeCaseStrategy.class)
 public class Pokemon {
     @Id
     private Long id;
 
     private String name;
 
-    @Column(name = "image_url")
     private String imageUrl;
 
     private Double height;
     private Double weight;
 
-
-    @Column(columnDefinition = "TEXT")
     private String types;
 }
