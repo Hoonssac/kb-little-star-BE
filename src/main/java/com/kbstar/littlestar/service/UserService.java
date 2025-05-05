@@ -19,10 +19,14 @@ public class UserService {
         User user = new User();
         user.setUsername(request.getUsername());
         user.setPassword(passwordEncoder.encode(request.getPassword()));
+
         user.setAge(request.getAge());
         user.setMileage(request.getMileage());
         user.setPokemonIds(request.getPokemonIds());
         user.setMainPokemonId(request.getMainPokemonId());
+        user.setQuestionIds(request.getQuestionIds());
+        user.setTicketCount(request.getTicketCount());
+        user.setLastAnsweredDate(null);
         return userRepository.save(user);
     }
 

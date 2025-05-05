@@ -29,7 +29,10 @@ public class SecurityConfig {
                         .requestMatchers(
                                 "/api/auth/signup",
                                 "/api/auth/login",
-                                "/api/auth/check-username"
+                                "/api/auth/check-username",
+                                "/api/auth/logout",
+                                "/api/auth/me",
+                                "/api/pokedex/**"
                         ).permitAll()
                         .anyRequest().authenticated())
                 .formLogin(form -> form.disable()) // 기본 폼 사용 안 함

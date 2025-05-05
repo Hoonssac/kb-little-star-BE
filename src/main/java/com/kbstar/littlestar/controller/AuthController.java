@@ -39,6 +39,7 @@ public class AuthController {
         User user = userService.login(username, password);
 
         session.setAttribute("user", user); // 세션에 유저 저장
+        System.out.println("세션 ID: " + session.getId());
 
         return ResponseEntity.ok(user);
     }
@@ -53,7 +54,7 @@ public class AuthController {
     public ResponseEntity<?> me(HttpSession session) {
         User user = (User) session.getAttribute("user");
         if (user == null) {
-            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("로그인되지 않았습니다.");
+            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("로그인이 필요합니다.");
         }
         return ResponseEntity.ok(user);
     }
