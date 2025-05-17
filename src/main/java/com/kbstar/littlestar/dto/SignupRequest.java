@@ -1,7 +1,6 @@
 package com.kbstar.littlestar.dto;
 
 import lombok.*;
-
 import java.util.List;
 
 @Getter
@@ -13,8 +12,6 @@ public class SignupRequest {
     private Integer age;
     private List<Integer> pokemonIds;
     private Integer mainPokemonId;
-    private List<Integer> questionIds;
     private int mileage;
-    private int ticketCount;
 }
 

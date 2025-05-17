@@ -24,8 +24,6 @@ public class UserService {
         user.setMileage(request.getMileage());
         user.setPokemonIds(request.getPokemonIds());
         user.setMainPokemonId(request.getMainPokemonId());
-        user.setQuestionIds(request.getQuestionIds());
-        user.setTicketCount(request.getTicketCount());
         user.setLastAnsweredDate(null);
         return userRepository.save(user);
     }

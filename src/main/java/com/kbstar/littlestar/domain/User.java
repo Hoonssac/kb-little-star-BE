@@ -7,7 +7,6 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
-
 import java.time.LocalDate;
 import java.util.List;
 
@@ -16,7 +15,6 @@ import java.util.List;
 @Getter @Setter @NoArgsConstructor @AllArgsConstructor
 @JsonNaming(PropertyNamingStrategies.SnakeCaseStrategy.class)
 public class User {
-
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
@@ -30,17 +28,11 @@ public class User {
 
     private Integer age;
 
-
     @ElementCollection(fetch = FetchType.EAGER)
     private List<Integer> pokemonIds;
 
     private Integer mainPokemonId;
 
-    @ElementCollection(fetch = FetchType.EAGER)
-    private List<Integer> questionIds;
-
     private Integer mileage;
-
-    private Integer ticketCount = 0;
 }
 

@@ -8,8 +8,6 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
-import java.util.List;
-
 @Entity
 @Getter
 @Setter
@@ -26,6 +24,7 @@ public class Pokemon {
     private String imageUrl;
 
     private Double height;
+
     private Double weight;
 
     private String types;
