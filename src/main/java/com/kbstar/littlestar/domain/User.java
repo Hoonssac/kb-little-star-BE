@@ -8,6 +8,7 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 import java.time.LocalDate;
+import java.util.ArrayList;
 import java.util.List;
 
 @Entity
@@ -28,10 +29,15 @@ public class User {
 
     private Integer age;
 
-    @ElementCollection(fetch = FetchType.EAGER)
-    private List<Integer> pokemonIds;
+//    @ElementCollection(fetch = FetchType.EAGER)
+//    private List<Integer> pokemonIds;
 
-    private Integer mainPokemonId;
+    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<UserPokemon> userPokemons = new ArrayList<>();
+
+    @ManyToOne
+    @JoinColumn(name = "main_pokemon_id")
+    private Pokemon mainPokemonId;
 
     private Integer mileage;
 }

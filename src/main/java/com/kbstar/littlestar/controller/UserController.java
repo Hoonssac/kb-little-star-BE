@@ -1,6 +1,8 @@
 package com.kbstar.littlestar.controller;
 
+import com.kbstar.littlestar.domain.Pokemon;
 import com.kbstar.littlestar.domain.User;
+import com.kbstar.littlestar.repository.PokemonRepository;
 import com.kbstar.littlestar.repository.UserRepository;
 import jakarta.servlet.http.HttpSession;
 import lombok.RequiredArgsConstructor;
@@ -15,6 +17,7 @@ import java.util.Map;
 public class UserController {
 
     private final UserRepository userRepository;
+    private final PokemonRepository pokemonRepository;
 
     @PatchMapping("/main-pokemon")
     public ResponseEntity<?> updateMainPokemon(@RequestBody Map<String, Integer> body, HttpSession session) {
@@ -27,7 +30,10 @@ public class UserController {
         }
 
         Integer mainPokemonId = body.get("main_pokemon_id");
-        user.setMainPokemonId(mainPokemonId);
+        Pokemon mainPokemon = pokemonRepository.findById(Long.valueOf(mainPokemonId))
+                .orElseThrow(() -> new IllegalArgumentException("해당 포켓몬이 존재하지 않습니다."));
+
+        user.setMainPokemonId(mainPokemon);
         userRepository.save(user);
 
         System.out.println("✅ 대표 포켓몬 설정 완료: " + mainPokemonId);
