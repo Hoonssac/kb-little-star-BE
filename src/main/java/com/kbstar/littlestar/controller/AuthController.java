@@ -40,7 +40,7 @@ public class AuthController {
         session.setAttribute("user", user); // 세션에 유저 저장
         System.out.println("세션 ID: " + session.getId());
 
-        return ResponseEntity.ok(user);
+        return ResponseEntity.ok(userService.toUserResponse(user));
     }
 
     @PostMapping("/logout")
@@ -55,6 +55,7 @@ public class AuthController {
         if (user == null) {
             return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("로그인이 필요합니다.");
         }
-        return ResponseEntity.ok(user);
+
+        return ResponseEntity.ok(userService.toUserResponse(user));
     }
 }

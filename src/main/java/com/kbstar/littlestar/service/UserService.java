@@ -4,12 +4,15 @@ import com.kbstar.littlestar.domain.Pokemon;
 import com.kbstar.littlestar.domain.User;
 import com.kbstar.littlestar.domain.UserPokemon;
 import com.kbstar.littlestar.dto.SignupRequest;
+import com.kbstar.littlestar.dto.UserResponse;
 import com.kbstar.littlestar.repository.PokemonRepository;
 import com.kbstar.littlestar.repository.UserPokemonRepository;
 import com.kbstar.littlestar.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
+import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
@@ -31,7 +34,7 @@ public class UserService {
         user.setPassword(passwordEncoder.encode(request.getPassword()));
         user.setAge(request.getAge());
         user.setMileage(request.getMileage());
-        user.setMainPokemonId(mainPokemon);
+        user.setMainPokemon(mainPokemon);
 
         // user 저장
         User savedUser = userRepository.save(user);
@@ -53,5 +56,23 @@ public class UserService {
         }
 
         return user;
+    }
+
+    // Dto 변환
+    public UserResponse toUserResponse(User user) {
+        List<Long> pokemonIds = user.getUserPokemons()
+                .stream()
+                .map(up -> up.getPokemon().getId())
+                .collect(Collectors.toList());
+
+        return new UserResponse(
+                user.getId(),
+                user.getUsername(),
+                user.getAge(),
+                user.getLastAnsweredDate(),
+                user.getMileage(),
+                user.getMainPokemon().getId(),
+                pokemonIds
+        );
     }
 }

@@ -29,15 +29,12 @@ public class User {
 
     private Integer age;
 
-//    @ElementCollection(fetch = FetchType.EAGER)
-//    private List<Integer> pokemonIds;
-
     @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<UserPokemon> userPokemons = new ArrayList<>();
 
     @ManyToOne
     @JoinColumn(name = "main_pokemon_id")
-    private Pokemon mainPokemonId;
+    private Pokemon mainPokemon;
 
     private Integer mileage;
 }

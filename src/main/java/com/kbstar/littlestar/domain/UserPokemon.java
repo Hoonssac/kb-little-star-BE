@@ -27,7 +27,6 @@ public class UserPokemon {
     private Pokemon pokemon; // 어떤 포켓몬을 보유
 
     // 생성자
-
     public UserPokemon(User user, Pokemon pokemon) {
         this.user = user;
         this.pokemon = pokemon;

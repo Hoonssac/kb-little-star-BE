@@ -33,7 +33,7 @@ public class UserController {
         Pokemon mainPokemon = pokemonRepository.findById(Long.valueOf(mainPokemonId))
                 .orElseThrow(() -> new IllegalArgumentException("해당 포켓몬이 존재하지 않습니다."));
 
-        user.setMainPokemonId(mainPokemon);
+        user.setMainPokemon(mainPokemon);
         userRepository.save(user);
 
         System.out.println("✅ 대표 포켓몬 설정 완료: " + mainPokemonId);
