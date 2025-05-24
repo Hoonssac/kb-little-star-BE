@@ -2,14 +2,13 @@ package com.kbstar.littlestar.domain;
 
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
-import lombok.Setter;
 
 @Entity
 @Table(name = "user_pokemon")
 @Getter
-@Setter
 @NoArgsConstructor
 @AllArgsConstructor
 public class UserPokemon {
@@ -26,7 +25,7 @@ public class UserPokemon {
     @JoinColumn(name = "pokemon_id")
     private Pokemon pokemon; // 어떤 포켓몬을 보유
 
-    // 생성자
+    @Builder
     public UserPokemon(User user, Pokemon pokemon) {
         this.user = user;
         this.pokemon = pokemon;

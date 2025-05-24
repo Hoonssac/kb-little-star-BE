@@ -3,17 +3,18 @@ package com.kbstar.littlestar.domain;
 import com.fasterxml.jackson.databind.PropertyNamingStrategies;
 import com.fasterxml.jackson.databind.annotation.JsonNaming;
 import jakarta.persistence.*;
-import lombok.AllArgsConstructor;
+import lombok.AccessLevel;
+import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
-import lombok.Setter;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 
 @Entity
 @Table(name = "users")
-@Getter @Setter @NoArgsConstructor @AllArgsConstructor
+@Getter
+@NoArgsConstructor(access = AccessLevel.PROTECTED)
 @JsonNaming(PropertyNamingStrategies.SnakeCaseStrategy.class)
 public class User {
     @Id
@@ -23,11 +24,14 @@ public class User {
     @Column(unique = true)
     private String username;
 
+    @Column(nullable = false)
     private String password;
 
     private LocalDate lastAnsweredDate;
 
     private Integer age;
+
+    private Integer mileage;
 
     @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<UserPokemon> userPokemons = new ArrayList<>();
@@ -36,6 +40,31 @@ public class User {
     @JoinColumn(name = "main_pokemon_id")
     private Pokemon mainPokemon;
 
-    private Integer mileage;
+    @Builder
+    public User(String username, String password, Integer age, Integer mileage, LocalDate lastAnsweredDate,
+        Pokemon mainPokemon) {
+        this.username = username;
+        this.password = password;
+        this.age = age;
+        this.mileage = mileage;
+        this.lastAnsweredDate = lastAnsweredDate;
+        this.mainPokemon = mainPokemon;
+    }
+
+    public void addPokemon(Pokemon pokemon) {
+        this.userPokemons.add(new UserPokemon(this, pokemon));
+    }
+
+    public void changeMainPokemon(Pokemon mainPokemon) {
+        this.mainPokemon = mainPokemon;
+    }
+
+    public void updateMileage(int mileage) {
+        this.mileage = mileage;
+    }
+
+    public void updateLastAnsweredDate(LocalDate date) {
+        this.lastAnsweredDate = date;
+    }
 }
 

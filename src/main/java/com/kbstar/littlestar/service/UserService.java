@@ -8,6 +8,8 @@ import com.kbstar.littlestar.dto.UserResponse;
 import com.kbstar.littlestar.repository.PokemonRepository;
 import com.kbstar.littlestar.repository.UserPokemonRepository;
 import com.kbstar.littlestar.repository.UserRepository;
+
+import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
@@ -29,12 +31,13 @@ public class UserService {
                 .orElseThrow(() -> new IllegalArgumentException("해당 포켓몬이 존재하지 않습니다."));
 
         // user 객체 생성
-        User user = new User();
-        user.setUsername(request.getUsername());
-        user.setPassword(passwordEncoder.encode(request.getPassword()));
-        user.setAge(request.getAge());
-        user.setMileage(request.getMileage());
-        user.setMainPokemon(mainPokemon);
+        User user = User.builder()
+            .username(request.getUsername())
+            .password(passwordEncoder.encode(request.getPassword()))
+            .age(request.getAge())
+            .mileage(request.getMileage())
+            .mainPokemon(mainPokemon)
+            .build();
 
         // user 저장
         User savedUser = userRepository.save(user);
@@ -74,5 +77,14 @@ public class UserService {
                 user.getMainPokemon().getId(),
                 pokemonIds
         );
+    }
+
+    @Transactional
+    public void updateMainPokemon(User user, Integer mainPokemonId) {
+        Pokemon pokemon = pokemonRepository.findById(Long.valueOf(mainPokemonId))
+            .orElseThrow(() -> new IllegalArgumentException("해당 포켓몬이 존재하지 않습니다."));
+
+        user.changeMainPokemon(pokemon);
+        userRepository.save(user);
     }
 }
