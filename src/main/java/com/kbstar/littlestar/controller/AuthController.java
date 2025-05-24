@@ -2,6 +2,7 @@ package com.kbstar.littlestar.controller;
 
 import com.kbstar.littlestar.domain.User;
 import com.kbstar.littlestar.dto.SignupRequest;
+import com.kbstar.littlestar.dto.UserResponse;
 import com.kbstar.littlestar.repository.UserRepository;
 import com.kbstar.littlestar.service.UserService;
 import jakarta.servlet.http.HttpSession;
@@ -19,9 +20,10 @@ public class AuthController {
     private final UserRepository userRepository;
 
     @PostMapping("/signup")
-    public ResponseEntity<?> signup(@RequestBody SignupRequest request) {
+    public ResponseEntity<?> signup(@RequestBody SignupRequest request, HttpSession session) {
         User user = userService.signup(request);
-        return ResponseEntity.ok(user);
+        session.setAttribute("user", user);
+        return ResponseEntity.ok(new UserResponse());
     }
 
     @GetMapping("/check-username")
