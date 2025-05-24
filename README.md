@@ -25,7 +25,7 @@ Spring Boot와 MySQL 기반의 RESTful API 서버를 직접 구현하여,
 
  
 
-### ✅ 주요 기능
+### 🎯 세부 목표
 - Spring Boot 기반 RESTful API 서버 구축
 - 세션 기반 인증을 적용한 회원가입 / 로그인 기능
 - 가계부 기록 및 퀴즈 데이터 CRUD 기능 제공
