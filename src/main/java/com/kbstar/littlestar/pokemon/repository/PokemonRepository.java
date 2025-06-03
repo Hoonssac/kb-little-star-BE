@@ -1,6 +1,6 @@
-package com.kbstar.littlestar.repository;
+package com.kbstar.littlestar.pokemon.repository;
 
-import com.kbstar.littlestar.domain.Pokemon;
+import com.kbstar.littlestar.pokemon.domain.Pokemon;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 public interface PokemonRepository extends JpaRepository<Pokemon, Long> {

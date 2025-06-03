@@ -1,6 +1,6 @@
-package com.kbstar.littlestar.repository;
+package com.kbstar.littlestar.user.repository;
 
-import com.kbstar.littlestar.domain.User;
+import com.kbstar.littlestar.user.entity.User;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 

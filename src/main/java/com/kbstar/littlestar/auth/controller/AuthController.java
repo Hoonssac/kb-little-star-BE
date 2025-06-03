@@ -1,10 +1,11 @@
-package com.kbstar.littlestar.controller;
+package com.kbstar.littlestar.auth.controller;
 
-import com.kbstar.littlestar.domain.User;
-import com.kbstar.littlestar.dto.SignupRequest;
-import com.kbstar.littlestar.dto.UserResponse;
-import com.kbstar.littlestar.repository.UserRepository;
-import com.kbstar.littlestar.service.UserService;
+import com.kbstar.littlestar.auth.service.AuthService;
+import com.kbstar.littlestar.user.entity.User;
+import com.kbstar.littlestar.auth.dto.SignupRequest;
+import com.kbstar.littlestar.user.dto.UserResponse;
+import com.kbstar.littlestar.user.repository.UserRepository;
+import com.kbstar.littlestar.user.service.UserService;
 import jakarta.servlet.http.HttpSession;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
@@ -17,11 +18,12 @@ import java.util.Map;
 @RequiredArgsConstructor
 public class AuthController {
     private final UserService userService;
+    private final AuthService authService;
     private final UserRepository userRepository;
 
     @PostMapping("/signup")
     public ResponseEntity<?> signup(@RequestBody SignupRequest request, HttpSession session) {
-        User user = userService.signup(request);
+        User user = authService.signup(request);
         session.setAttribute("user", user);
         return ResponseEntity.ok(new UserResponse());
     }
@@ -37,7 +39,7 @@ public class AuthController {
         String username = body.get("username");
         String password = body.get("password");
 
-        User user = userService.login(username, password);
+        User user = authService.login(username, password);
 
         session.setAttribute("user", user); // 세션에 유저 저장
         System.out.println("세션 ID: " + session.getId());

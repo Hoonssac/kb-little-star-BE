@@ -1,7 +1,7 @@
-package com.kbstar.littlestar.controller;
+package com.kbstar.littlestar.pokemon.controller;
 
-import com.kbstar.littlestar.domain.Pokemon;
-import com.kbstar.littlestar.repository.PokemonRepository;
+import com.kbstar.littlestar.pokemon.domain.Pokemon;
+import com.kbstar.littlestar.pokemon.repository.PokemonRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;

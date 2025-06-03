@@ -1,4 +1,4 @@
-package com.kbstar.littlestar.dto;
+package com.kbstar.littlestar.user.dto;
 
 import com.fasterxml.jackson.databind.PropertyNamingStrategies;
 import com.fasterxml.jackson.databind.annotation.JsonNaming;

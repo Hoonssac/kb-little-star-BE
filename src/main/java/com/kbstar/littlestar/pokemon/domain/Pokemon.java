@@ -1,4 +1,4 @@
-package com.kbstar.littlestar.domain;
+package com.kbstar.littlestar.pokemon.domain;
 
 import com.fasterxml.jackson.databind.PropertyNamingStrategies;
 import com.fasterxml.jackson.databind.annotation.JsonNaming;

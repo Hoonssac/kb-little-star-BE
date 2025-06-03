@@ -1,4 +1,4 @@
-package com.kbstar.littlestar.dto;
+package com.kbstar.littlestar.auth.dto;
 
 import lombok.*;
 

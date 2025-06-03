@@ -1,4 +1,6 @@
-package com.kbstar.littlestar.domain;
+package com.kbstar.littlestar.user.entity;
+
+import com.kbstar.littlestar.pokemon.domain.Pokemon;
 
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;

@@ -1,9 +1,9 @@
-package com.kbstar.littlestar.controller;
+package com.kbstar.littlestar.user.controller;
 
-import com.kbstar.littlestar.domain.User;
-import com.kbstar.littlestar.repository.PokemonRepository;
-import com.kbstar.littlestar.repository.UserRepository;
-import com.kbstar.littlestar.service.UserService;
+import com.kbstar.littlestar.user.entity.User;
+import com.kbstar.littlestar.pokemon.repository.PokemonRepository;
+import com.kbstar.littlestar.user.repository.UserRepository;
+import com.kbstar.littlestar.user.service.UserService;
 
 import jakarta.servlet.http.HttpSession;
 import lombok.RequiredArgsConstructor;

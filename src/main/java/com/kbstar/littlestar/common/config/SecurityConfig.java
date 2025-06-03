@@ -1,4 +1,4 @@
-package com.kbstar.littlestar.config;
+package com.kbstar.littlestar.common.config;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
