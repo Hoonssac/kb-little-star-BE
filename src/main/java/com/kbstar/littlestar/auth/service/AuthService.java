@@ -1,5 +1,7 @@
 package com.kbstar.littlestar.auth.service;
 
+import com.kbstar.littlestar.common.exception.CustomException;
+import com.kbstar.littlestar.common.exception.errorCode.AuthErrorCode;
 import com.kbstar.littlestar.pokemon.domain.Pokemon;
 import com.kbstar.littlestar.user.entity.User;
 import com.kbstar.littlestar.user.entity.UserPokemon;
@@ -46,12 +48,11 @@ public class AuthService {
 
 	// 로그인
 	public User login(String username, String password) {
-		// user 찾기
-		User user = userRepository.findByUsername(username).orElseThrow(() -> new IllegalArgumentException("사용자가 존재하지 않습니다."));
+		User user = userRepository.findByUsername(username).orElseThrow(() -> new CustomException(AuthErrorCode.USER_NOT_FOUND));
 
 		// 비밀번호 불일치
 		if (!passwordEncoder.matches(password, user.getPassword())) {
-			throw new IllegalArgumentException("비밀번호가 틀립니다.");
+			throw new CustomException(AuthErrorCode.INVALID_PASSWORD);
 		}
 
 		return user;
