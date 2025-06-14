@@ -54,7 +54,11 @@ public class User {
     }
 
     public void addPokemon(Pokemon pokemon) {
-        this.userPokemons.add(new UserPokemon(this, pokemon));
+        UserPokemon userPokemon = UserPokemon.builder()
+            .user(this)
+            .pokemon(pokemon)
+            .build();
+        this.userPokemons.add(userPokemon);
     }
 
     public void changeMainPokemon(Pokemon mainPokemon) {

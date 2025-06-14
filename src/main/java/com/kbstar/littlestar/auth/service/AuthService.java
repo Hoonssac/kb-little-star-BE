@@ -22,7 +22,6 @@ public class AuthService {
 	private final PokemonRepository pokemonRepository;
 	private final UserPokemonRepository userPokemonRepository;
 
-	// 회원가입
 	public User signup(SignupRequest request) {
 		// 메인 포켓몬 엔티티 조회
 		Pokemon mainPokemon = pokemonRepository.findById(request.getMainPokemonId())
@@ -38,12 +37,9 @@ public class AuthService {
 			.build();
 
 		// user 저장
-		User savedUser = userRepository.save(user);
+		user.addPokemon(mainPokemon);
 
-		// 보유 포켓몬 연관 관계 저장
-		UserPokemon userPokemon = new UserPokemon(savedUser, mainPokemon);
-		userPokemonRepository.save(userPokemon);
-		return savedUser;
+		return userRepository.save(user);
 	}
 
 	// 로그인
