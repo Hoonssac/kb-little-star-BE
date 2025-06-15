@@ -18,8 +18,6 @@ import org.springframework.transaction.annotation.Transactional;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.kbstar.littlestar.auth.dto.SignupRequest;
-import com.kbstar.littlestar.pokemon.repository.PokemonRepository;
-import com.kbstar.littlestar.user.repository.UserRepository;
 
 @SpringBootTest
 @AutoConfigureMockMvc
@@ -32,12 +30,6 @@ class AuthServiceTest {
 
 	@Autowired
 	private ObjectMapper objectMapper;
-
-	@Autowired
-	private PokemonRepository pokemonRepository;
-
-	@Autowired
-	private UserRepository userRepository;
 
 	@Test
 	void 회원가입_성공() throws Exception {
