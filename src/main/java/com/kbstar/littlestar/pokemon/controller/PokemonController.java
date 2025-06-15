@@ -3,7 +3,8 @@ package com.kbstar.littlestar.pokemon.controller;
 import com.kbstar.littlestar.common.exception.CustomException;
 import com.kbstar.littlestar.common.exception.errorCode.PokemonErrorCode;
 import com.kbstar.littlestar.pokemon.domain.Pokemon;
-import com.kbstar.littlestar.pokemon.repository.PokemonRepository;
+import com.kbstar.littlestar.pokemon.service.PokemonService;
+
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -16,21 +17,16 @@ import java.util.List;
 @RequestMapping("/api/pokedex")
 @RequiredArgsConstructor
 public class PokemonController {
-    private final PokemonRepository pokemonRepository;
+
+    private final PokemonService pokemonService;
 
     @GetMapping
     public ResponseEntity<List<Pokemon>> getAll() {
-        List<Pokemon> pokemons = pokemonRepository.findAll();
-        if (pokemons.isEmpty()) {
-            throw new CustomException(PokemonErrorCode.EMPTY_POKEMON_LIST);
-        }
-        return ResponseEntity.ok(pokemons);
+        return ResponseEntity.ok(pokemonService.getAllPokemons());
     }
 
     @GetMapping("/{id}")
     public ResponseEntity<Pokemon> getById(@PathVariable Long id) {
-        Pokemon pokemon = pokemonRepository.findById(id)
-            .orElseThrow(() -> new CustomException(PokemonErrorCode.POKEMON_NOT_FOUND));
-        return ResponseEntity.ok(pokemon);
+        return ResponseEntity.ok(pokemonService.getPokemonById(id));
     }
 }
