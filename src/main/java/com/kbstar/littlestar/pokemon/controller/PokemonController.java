@@ -1,5 +1,7 @@
 package com.kbstar.littlestar.pokemon.controller;
 
+import com.kbstar.littlestar.common.exception.CustomException;
+import com.kbstar.littlestar.common.exception.errorCode.PokemonErrorCode;
 import com.kbstar.littlestar.pokemon.domain.Pokemon;
 import com.kbstar.littlestar.pokemon.repository.PokemonRepository;
 import lombok.RequiredArgsConstructor;
@@ -18,13 +20,17 @@ public class PokemonController {
 
     @GetMapping
     public ResponseEntity<List<Pokemon>> getAll() {
-        return ResponseEntity.ok(pokemonRepository.findAll());
+        List<Pokemon> pokemons = pokemonRepository.findAll();
+        if (pokemons.isEmpty()) {
+            throw new CustomException(PokemonErrorCode.EMPTY_POKEMON_LIST);
+        }
+        return ResponseEntity.ok(pokemons);
     }
 
     @GetMapping("/{id}")
     public ResponseEntity<Pokemon> getById(@PathVariable Long id) {
-        Pokemon pokemon = pokemonRepository.findById(id).orElseThrow();
-        System.out.println(pokemon.getImageUrl());
+        Pokemon pokemon = pokemonRepository.findById(id)
+            .orElseThrow(() -> new CustomException(PokemonErrorCode.POKEMON_NOT_FOUND));
         return ResponseEntity.ok(pokemon);
     }
 }

@@ -1,6 +1,8 @@
 package com.kbstar.littlestar.auth.controller;
 
 import com.kbstar.littlestar.auth.service.AuthService;
+import com.kbstar.littlestar.common.exception.CustomException;
+import com.kbstar.littlestar.common.exception.errorCode.AuthErrorCode;
 import com.kbstar.littlestar.user.entity.User;
 import com.kbstar.littlestar.auth.dto.SignupRequest;
 import com.kbstar.littlestar.user.dto.UserResponse;
@@ -8,7 +10,6 @@ import com.kbstar.littlestar.user.repository.UserRepository;
 import com.kbstar.littlestar.user.service.UserService;
 import jakarta.servlet.http.HttpSession;
 import lombok.RequiredArgsConstructor;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import java.util.Map;
@@ -57,7 +58,7 @@ public class AuthController {
     public ResponseEntity<?> me(HttpSession session) {
         User user = (User) session.getAttribute("user");
         if (user == null) {
-            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("로그인이 필요합니다.");
+            throw new CustomException(AuthErrorCode.ACCESS_DENIED);
         }
 
         return ResponseEntity.ok(userService.toUserResponse(user));

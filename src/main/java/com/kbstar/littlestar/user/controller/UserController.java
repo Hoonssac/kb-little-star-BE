@@ -1,5 +1,7 @@
 package com.kbstar.littlestar.user.controller;
 
+import com.kbstar.littlestar.common.exception.CustomException;
+import com.kbstar.littlestar.common.exception.errorCode.AuthErrorCode;
 import com.kbstar.littlestar.user.entity.User;
 import com.kbstar.littlestar.pokemon.repository.PokemonRepository;
 import com.kbstar.littlestar.user.repository.UserRepository;
@@ -7,7 +9,6 @@ import com.kbstar.littlestar.user.service.UserService;
 
 import jakarta.servlet.http.HttpSession;
 import lombok.RequiredArgsConstructor;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import java.util.Map;
@@ -26,7 +27,7 @@ public class UserController {
 
         User sessionUser = (User) session.getAttribute("user");
         if (sessionUser == null) {
-            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("로그인이 필요합니다.");
+            throw new CustomException(AuthErrorCode.ACCESS_DENIED);
         }
 
         Integer mainPokemonId = body.get("main_pokemon_id");

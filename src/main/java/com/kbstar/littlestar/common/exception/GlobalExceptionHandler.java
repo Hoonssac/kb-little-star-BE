@@ -20,6 +20,6 @@ public class GlobalExceptionHandler {
 		response.put("code", errorCode.getCode());
 		response.put("message", errorCode.getMessage());
 
-		return ResponseEntity.status(errorCode.getHttStatus()).body(response);
+		return ResponseEntity.status(errorCode.getHttpStatus()).body(response);
 	}
 }
