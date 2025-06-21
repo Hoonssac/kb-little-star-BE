@@ -7,7 +7,7 @@ import org.springframework.stereotype.Service;
 import com.kbstar.littlestar.common.exception.CustomException;
 import com.kbstar.littlestar.common.exception.errorCode.PokemonErrorCode;
 import com.kbstar.littlestar.pokemon.domain.Pokemon;
-import com.kbstar.littlestar.pokemon.repository.PokemonRepository;
+import com.kbstar.littlestar.pokemon.mapper.PokemonMapper;
 
 import lombok.RequiredArgsConstructor;
 
@@ -15,10 +15,10 @@ import lombok.RequiredArgsConstructor;
 @RequiredArgsConstructor
 public class PokemonService {
 
-	private final PokemonRepository pokemonRepository;
+	private final PokemonMapper pokemonMapper;
 
 	public List<Pokemon> getAllPokemons() {
-		List<Pokemon> pokemons = pokemonRepository.findAll();
+		List<Pokemon> pokemons = pokemonMapper.findAll();
 		if (pokemons.isEmpty()) {
 			throw new CustomException(PokemonErrorCode.EMPTY_POKEMON_LIST);
 		}
@@ -26,7 +26,10 @@ public class PokemonService {
 	}
 
 	public Pokemon getPokemonById(Long id) {
-		return pokemonRepository.findById(id)
-			.orElseThrow(() -> new CustomException(PokemonErrorCode.POKEMON_NOT_FOUND));
+		Pokemon pokemon = pokemonMapper.findById(id);
+		if (pokemon == null) {
+			throw new CustomException(PokemonErrorCode.POKEMON_NOT_FOUND);
+		}
+		return pokemon;
 	}
 }

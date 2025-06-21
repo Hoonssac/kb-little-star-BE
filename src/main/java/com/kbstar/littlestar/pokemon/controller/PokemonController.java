@@ -1,7 +1,5 @@
 package com.kbstar.littlestar.pokemon.controller;
 
-import com.kbstar.littlestar.common.exception.CustomException;
-import com.kbstar.littlestar.common.exception.errorCode.PokemonErrorCode;
 import com.kbstar.littlestar.pokemon.domain.Pokemon;
 import com.kbstar.littlestar.pokemon.service.PokemonService;
 
