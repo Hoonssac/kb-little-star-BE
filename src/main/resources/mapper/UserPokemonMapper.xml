@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.kbstar.littlestar.user.mapper.UserPokemonMapper">
+
+    <insert id="save" parameterType="com.kbstar.littlestar.user.domain.UserPokemon">
+        INSERT INTO user_pokemon (user_id, pokemon_id)
+        VALUES (#{user.id}, #{pokemon.id})
+    </insert>
+
+    <resultMap id="UserPokemonResultMap" type="com.kbstar.littlestar.user.domain.UserPokemon">
+        <id property="id" column="id"/>
+        <association property="user" javaType="com.kbstar.littlestar.user.domain.User">
+            <id property="id" column="user_id"/>
+        </association>
+        <association property="pokemon" javaType="com.kbstar.littlestar.pokemon.domain.Pokemon">
+            <id property="id" column="pokemon_id"/>
+        </association>
+    </resultMap>
+
+    <select id="findByUserId" parameterType="long" resultMap="UserPokemonResultMap">
+        SELECT * FROM user_pokemon WHERE user_id = #{userId}
+    </select>
+</mapper>

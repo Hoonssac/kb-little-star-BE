@@ -2,13 +2,14 @@ package com.kbstar.littlestar.auth.service;
 
 import com.kbstar.littlestar.common.exception.CustomException;
 import com.kbstar.littlestar.common.exception.errorCode.AuthErrorCode;
+import com.kbstar.littlestar.common.exception.errorCode.PokemonErrorCode;
 import com.kbstar.littlestar.pokemon.domain.Pokemon;
-import com.kbstar.littlestar.user.entity.User;
-import com.kbstar.littlestar.user.entity.UserPokemon;
+import com.kbstar.littlestar.pokemon.mapper.PokemonMapper;
+import com.kbstar.littlestar.user.domain.User;
 import com.kbstar.littlestar.auth.dto.SignupRequest;
-import com.kbstar.littlestar.pokemon.repository.PokemonRepository;
-import com.kbstar.littlestar.user.repository.UserPokemonRepository;
-import com.kbstar.littlestar.user.repository.UserRepository;
+import com.kbstar.littlestar.user.domain.UserPokemon;
+import com.kbstar.littlestar.user.mapper.UserMapper;
+import com.kbstar.littlestar.user.mapper.UserPokemonMapper;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -17,15 +18,18 @@ import org.springframework.stereotype.Service;
 @Service
 @RequiredArgsConstructor
 public class AuthService {
-	private final UserRepository userRepository;
+
 	private final PasswordEncoder passwordEncoder;
-	private final PokemonRepository pokemonRepository;
-	private final UserPokemonRepository userPokemonRepository;
+	private final PokemonMapper pokemonMapper;
+	private final UserPokemonMapper userPokemonMapper;
+	private final UserMapper userMapper;
 
 	public User signup(SignupRequest request) {
 		// 메인 포켓몬 엔티티 조회
-		Pokemon mainPokemon = pokemonRepository.findById(request.getMainPokemonId())
-			.orElseThrow(() -> new IllegalArgumentException("해당 포켓몬이 존재하지 않습니다."));
+		Pokemon mainPokemon = pokemonMapper.findById(request.getMainPokemonId());
+		if (mainPokemon == null) {
+			throw new CustomException(PokemonErrorCode.POKEMON_NOT_FOUND);
+		}
 
 		// user 객체 생성
 		User user = User.builder()
@@ -33,18 +37,35 @@ public class AuthService {
 			.password(passwordEncoder.encode(request.getPassword()))
 			.age(request.getAge())
 			.mileage(request.getMileage())
-			.mainPokemon(mainPokemon)
+			.mainPokemonId(mainPokemon.getId())
 			.build();
 
 		// user 저장
-		user.addPokemon(mainPokemon);
+		userMapper.save(user);
 
-		return userRepository.save(user);
+		// 보유 포켓몬 생성
+		UserPokemon userPokemon = UserPokemon.builder()
+			.user(user)
+			.pokemon(mainPokemon)
+			.build();
+
+		// 보유 포켓몬 저장
+		userPokemonMapper.save(userPokemon);
+
+		// 유저 객체 안에도 수동으로 넣어줌
+		if (user.getUserPokemons() == null) {
+			user.addPokemon(userPokemon);
+		}
+		user.getUserPokemons().add(userPokemon);
+
+		return user;
 	}
 
-	// 로그인
 	public User login(String username, String password) {
-		User user = userRepository.findByUsername(username).orElseThrow(() -> new CustomException(AuthErrorCode.USER_NOT_FOUND));
+		User user = userMapper.findByUserName(username);
+		if (user == null) {
+			throw new CustomException(AuthErrorCode.USER_NOT_FOUND);
+		}
 
 		// 비밀번호 불일치
 		if (!passwordEncoder.matches(password, user.getPassword())) {

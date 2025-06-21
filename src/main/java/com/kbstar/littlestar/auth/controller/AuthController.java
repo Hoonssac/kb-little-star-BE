@@ -3,24 +3,30 @@ package com.kbstar.littlestar.auth.controller;
 import com.kbstar.littlestar.auth.service.AuthService;
 import com.kbstar.littlestar.common.exception.CustomException;
 import com.kbstar.littlestar.common.exception.errorCode.AuthErrorCode;
-import com.kbstar.littlestar.user.entity.User;
+import com.kbstar.littlestar.user.domain.User;
 import com.kbstar.littlestar.auth.dto.SignupRequest;
+import com.kbstar.littlestar.user.domain.UserPokemon;
 import com.kbstar.littlestar.user.dto.UserResponse;
-import com.kbstar.littlestar.user.repository.UserRepository;
+import com.kbstar.littlestar.user.mapper.UserMapper;
+import com.kbstar.littlestar.user.mapper.UserPokemonMapper;
 import com.kbstar.littlestar.user.service.UserService;
 import jakarta.servlet.http.HttpSession;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
 import java.util.Map;
 
 @RestController
 @RequestMapping("/api/auth")
 @RequiredArgsConstructor
 public class AuthController {
+
     private final UserService userService;
     private final AuthService authService;
-    private final UserRepository userRepository;
+    private final UserMapper userMapper;
+    private final UserPokemonMapper userPokemonMapper;
 
     @PostMapping("/signup")
     public ResponseEntity<?> signup(@RequestBody SignupRequest request, HttpSession session) {
@@ -31,7 +37,7 @@ public class AuthController {
 
     @GetMapping("/check-username")
     public ResponseEntity<?> checkUsername(@RequestParam String username) {
-        boolean exists = userRepository.findByUsername(username).isPresent();
+        boolean exists = userService.checkUserName(username);
         return ResponseEntity.ok(Map.of("exists", exists));
     }
 
@@ -60,6 +66,10 @@ public class AuthController {
         if (user == null) {
             throw new CustomException(AuthErrorCode.ACCESS_DENIED);
         }
+
+        // DB에서 최신 포켓몬 목록 조회해서 세팅
+        List<UserPokemon> userPokemons = userPokemonMapper.findByUserId(user.getId());
+        userPokemons.forEach(user::addPokemon);
 
         return ResponseEntity.ok(userService.toUserResponse(user));
     }

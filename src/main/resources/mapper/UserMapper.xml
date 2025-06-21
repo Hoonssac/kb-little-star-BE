@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.kbstar.littlestar.user.mapper.UserMapper">
+    <resultMap id="UserResultMap" type="com.kbstar.littlestar.user.domain.User">
+        <constructor>
+            <idArg column="id" javaType="Long"/>
+            <arg column="username" javaType="String"/>
+            <arg column="password" javaType="String"/>
+            <arg column="last_answered_date" javaType="java.time.LocalDate"/>
+            <arg column="age" javaType="Integer"/>
+            <arg column="mileage" javaType="Integer"/>
+            <arg column="main_pokemon_id" javaType="Long"/>
+        </constructor>
+    </resultMap>
+
+    <select id="findByUserName" parameterType="string" resultMap="UserResultMap">
+        SELECT *
+        FROM users
+        WHERE username = #{username};
+    </select>
+
+    <insert id="save" parameterType="com.kbstar.littlestar.user.domain.User" useGeneratedKeys="true" keyProperty="id">
+        INSERT INTO users (username, password, age, mileage, last_answered_date, main_pokemon_id)
+        VALUES (#{username}, #{password}, #{age}, #{mileage}, #{lastAnsweredDate}, #{mainPokemonId});
+    </insert>
+
+    <update id="updateMainPokemon">
+        UPDATE users
+        SET main_pokemon_id = #{pokemonId}
+        WHERE id = #{userId};
+    </update>
+</mapper>

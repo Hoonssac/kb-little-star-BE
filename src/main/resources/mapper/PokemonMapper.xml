@@ -7,7 +7,7 @@
     <resultMap id="PokemonResultMap" type="com.kbstar.littlestar.pokemon.domain.Pokemon">
         <id property="id" column="id"/>
         <result property="name" column="name"/>
-        <result property="imageUrl" column="imageUrl"/>
+        <result property="imageUrl" column="image_url"/>
         <result property="height" column="height"/>
         <result property="weight" column="weight"/>
         <result property="types" column="types"/>

@@ -2,9 +2,7 @@ package com.kbstar.littlestar.user.controller;
 
 import com.kbstar.littlestar.common.exception.CustomException;
 import com.kbstar.littlestar.common.exception.errorCode.AuthErrorCode;
-import com.kbstar.littlestar.user.entity.User;
-import com.kbstar.littlestar.pokemon.repository.PokemonRepository;
-import com.kbstar.littlestar.user.repository.UserRepository;
+import com.kbstar.littlestar.user.domain.User;
 import com.kbstar.littlestar.user.service.UserService;
 
 import jakarta.servlet.http.HttpSession;
@@ -18,8 +16,6 @@ import java.util.Map;
 @RequiredArgsConstructor
 public class UserController {
 
-    private final UserRepository userRepository;
-    private final PokemonRepository pokemonRepository;
     private final UserService userService;
 
     @PatchMapping("/main-pokemon")
@@ -31,7 +27,7 @@ public class UserController {
         }
 
         Integer mainPokemonId = body.get("main_pokemon_id");
-        userService.updateMainPokemon(sessionUser, mainPokemonId);
+        userService.updateMainPokemon(sessionUser.getId(), mainPokemonId);
         return ResponseEntity.ok("대표 포켓몬이 업데이트되었습니다.");
     }
 }
