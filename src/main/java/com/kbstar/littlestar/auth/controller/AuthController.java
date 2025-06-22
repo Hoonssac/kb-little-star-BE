@@ -6,6 +6,7 @@ import com.kbstar.littlestar.user.domain.User;
 import com.kbstar.littlestar.auth.dto.SignupRequest;
 import com.kbstar.littlestar.user.service.UserService;
 import jakarta.servlet.http.HttpSession;
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -21,7 +22,7 @@ public class AuthController {
     private final AuthService authService;
 
     @PostMapping("/signup")
-    public ResponseEntity<?> signup(@RequestBody SignupRequest request, HttpSession session) {
+    public ResponseEntity<?> signup(@RequestBody @Valid SignupRequest request, HttpSession session) {
         User user = authService.signup(request, session);
         return ResponseEntity.ok(userService.toUserResponse(user));
     }
