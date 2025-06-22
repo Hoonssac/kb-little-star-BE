@@ -3,7 +3,6 @@ package com.kbstar.littlestar.auth.dto;
 import lombok.*;
 
 @Getter
-@Setter
 public class SignupRequest {
     private String username;
     private String password;

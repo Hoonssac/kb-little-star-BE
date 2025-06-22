@@ -2,7 +2,7 @@ package com.kbstar.littlestar.user.domain;
 
 import com.fasterxml.jackson.databind.PropertyNamingStrategies;
 import com.fasterxml.jackson.databind.annotation.JsonNaming;
-import com.kbstar.littlestar.pokemon.domain.Pokemon;
+import com.kbstar.littlestar.auth.dto.SignupRequest;
 
 import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
@@ -33,7 +33,10 @@ public class User {
         if (userPokemons == null) {
             userPokemons = new ArrayList<>();
         }
-        userPokemons.add(userPokemon);
+        // 중복 방지
+        if (userPokemons.stream().noneMatch(up -> up.getPokemon().getId().equals(userPokemon.getPokemon().getId()))) {
+            userPokemons.add(userPokemon);
+        }
     }
 
     public User(Long id, String username, String password, LocalDate lastAnsweredDate,
@@ -45,6 +48,16 @@ public class User {
         this.age = age;
         this.mileage = mileage;
         this.mainPokemonId = mainPokemonId;
+    }
+
+    public static User of(SignupRequest request, String encodedPassword) {
+        return User.builder()
+            .username(request.getUsername())
+            .password(encodedPassword)
+            .age(request.getAge())
+            .mileage(request.getMileage())
+            .mainPokemonId(request.getMainPokemonId())
+            .build();
     }
 }
 
