@@ -1,14 +1,15 @@
 package com.kbstar.littlestar.user.dto;
 
+import java.time.LocalDate;
+import java.util.List;
+
 import com.fasterxml.jackson.databind.PropertyNamingStrategies;
 import com.fasterxml.jackson.databind.annotation.JsonNaming;
+
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
-
-import java.time.LocalDate;
-import java.util.List;
 
 @Getter
 @Setter

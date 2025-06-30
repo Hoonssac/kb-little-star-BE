@@ -9,5 +9,4 @@ import com.kbstar.littlestar.user.domain.User;
 public interface UserMapper {
 	User findByUserName(@Param("username") String username);
 	void save(User user);
-	void updateMainPokemon(@Param("userId") Long userId, @Param("pokemonId") Long pokemonId);
 }

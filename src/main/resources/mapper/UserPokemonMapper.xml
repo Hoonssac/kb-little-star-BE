@@ -21,6 +21,14 @@
     </resultMap>
 
     <select id="findByUserId" parameterType="long" resultMap="UserPokemonResultMap">
-        SELECT * FROM user_pokemon WHERE user_id = #{userId}
+        SELECT id, user_id, pokemon_id
+        FROM user_pokemon
+        WHERE user_id = #{userId}
     </select>
+
+    <update id="updateMainPokemon">
+        UPDATE users
+        SET main_pokemon_id = #{pokemonId}
+        WHERE id = #{userId};
+    </update>
 </mapper>

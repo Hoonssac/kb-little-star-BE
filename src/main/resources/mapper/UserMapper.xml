@@ -26,10 +26,4 @@
         INSERT INTO users (username, password, age, mileage, last_answered_date, main_pokemon_id)
         VALUES (#{username}, #{password}, #{age}, #{mileage}, #{lastAnsweredDate}, #{mainPokemonId});
     </insert>
-
-    <update id="updateMainPokemon">
-        UPDATE users
-        SET main_pokemon_id = #{pokemonId}
-        WHERE id = #{userId};
-    </update>
 </mapper>

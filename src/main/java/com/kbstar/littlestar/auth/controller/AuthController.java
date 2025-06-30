@@ -41,7 +41,6 @@ public class AuthController {
 
     @PostMapping("/logout")
     public ResponseEntity<?> logout(HttpSession session) {
-
         authService.logout(session);
         return ResponseEntity.ok("로그아웃 완료");
     }
