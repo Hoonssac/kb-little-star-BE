@@ -6,6 +6,7 @@ import jakarta.validation.constraints.NotNull;
 import lombok.*;
 
 @Getter
+@Setter
 public class SignupRequest {
 
     @NotBlank(message = "아이디를 입력해주세요.")

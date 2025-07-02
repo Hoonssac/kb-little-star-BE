@@ -7,6 +7,7 @@ import com.kbstar.littlestar.pokemon.domain.Pokemon;
 import com.kbstar.littlestar.pokemon.mapper.PokemonMapper;
 import com.kbstar.littlestar.user.domain.User;
 import com.kbstar.littlestar.user.domain.UserPokemon;
+import com.kbstar.littlestar.user.dto.UserResponse;
 import com.kbstar.littlestar.user.mapper.UserPokemonMapper;
 
 import jakarta.servlet.http.HttpSession;
@@ -20,9 +21,10 @@ public class UserPokemonService {
 
 	private final UserPokemonMapper userPokemonMapper;
 	private final PokemonMapper pokemonMapper;
+	private final UserService userService;
 
 	@Transactional
-	public void updateMainPokemon(Long mainPokemonId, HttpSession session) {
+	public UserResponse updateMainPokemon(Long mainPokemonId, HttpSession session) {
 		User sessionUser = (User) session.getAttribute("user");
 		if (sessionUser == null) {
 			throw new CustomException(AuthErrorCode.ACCESS_DENIED);
@@ -37,10 +39,12 @@ public class UserPokemonService {
 		// 세션 정보 업데이트
 		sessionUser.updateMainPokemonId(mainPokemonId);
 		session.setAttribute("user", sessionUser);
+
+		return userService.toUserResponse(sessionUser);
 	}
 
 	@Transactional
-	public void gatchaPokemon(Long newPokemonId, HttpSession session) {
+	public UserResponse gatchaPokemon(Long newPokemonId, HttpSession session) {
 		User sessionUser = (User)session.getAttribute("user");
 		if (sessionUser == null) {
 			throw new CustomException(AuthErrorCode.ACCESS_DENIED);
@@ -61,5 +65,7 @@ public class UserPokemonService {
 		// 세션 정보 업데이트
 		sessionUser.addPokemon(userPokemon);
 		session.setAttribute("user", sessionUser);
+
+		return userService.toUserResponse(sessionUser);
 	}
 }
