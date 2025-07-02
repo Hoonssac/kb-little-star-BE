@@ -30,6 +30,16 @@ class PokemonServiceTest {
 	}
 
 	@Test
+	@DisplayName("ID로 포켓몬 조회")
 	void getPokemonById() {
+		// given
+		Long pokemonId = 1L;
+
+		// when
+		Pokemon pokemon = pokemonService.getPokemonById(pokemonId);
+
+		// then
+		assertThat(pokemon).isNotNull();
+		assertThat(pokemon.getId()).isEqualTo(pokemonId);
 	}
 }
