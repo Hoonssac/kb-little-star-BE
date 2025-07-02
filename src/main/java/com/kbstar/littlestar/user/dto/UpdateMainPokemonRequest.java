@@ -8,5 +8,5 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 public class UpdateMainPokemonRequest {
 	@NotNull
-	private Integer mainPokemonId;
+	private Long mainPokemonId;
 }

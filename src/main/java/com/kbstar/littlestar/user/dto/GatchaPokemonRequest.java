@@ -8,5 +8,5 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 public class GatchaPokemonRequest {
 	@NotNull
-	private Integer newPokemonId;
+	private Long newPokemonId;
 }
