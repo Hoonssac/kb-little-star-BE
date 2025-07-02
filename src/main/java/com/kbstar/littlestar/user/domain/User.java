@@ -59,5 +59,9 @@ public class User {
             .mainPokemonId(request.getMainPokemonId())
             .build();
     }
+
+    public void updateMainPokemonId(Long mainPokemonId) {
+        this.mainPokemonId = mainPokemonId;
+    }
 }
 
