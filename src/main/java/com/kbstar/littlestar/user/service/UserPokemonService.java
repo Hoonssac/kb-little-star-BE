@@ -64,6 +64,7 @@ public class UserPokemonService {
 
 		// 세션 정보 업데이트
 		sessionUser.addPokemon(userPokemon);
+		sessionUser.useMileage(5000);
 		session.setAttribute("user", sessionUser);
 
 		return userService.toUserResponse(sessionUser);

@@ -63,5 +63,9 @@ public class User {
     public void updateMainPokemonId(Long mainPokemonId) {
         this.mainPokemonId = mainPokemonId;
     }
+
+    public void useMileage(int useage) {
+        this.mileage = this.mileage - useage;
+    }
 }
 
