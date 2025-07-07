@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.kbstar.littlestar.moneytracker.mapper.MoneyTrackerMapper">
+
+    <insert id="addCategory">
+        insert into categories (name, is_income, user_id) values (#{name}, #{isIncome}, #{userId})
+    </insert>
+
+    <insert id="addTransaction">
+        insert into transactions (date, is_income, amount, memo, category_id, user_id)
+        values (#{date}, #{isIncome}, #{amount}, #{memo}, #{categoryId}, #{userId})
+    </insert>
+
+    <update id="editTransaction">
+        update transactions
+        set date = #{date}, is_income = #{isIncome}, amount = #{amount}, memo = #{memo}, category_id = #{categoryId}
+        where id = #{id}
+    </update>
+
+    <delete id="deleteTransaction">
+        delete from transactions where id = #{transactionId}
+    </delete>
+
+    <select id="getCategories" resultType="com.kbstar.littlestar.moneytracker.dto.CategoryDto">
+        select * from categories where user_id = #{userId}
+    </select>
+
+    <select id="getTransactions" resultType="com.kbstar.littlestar.moneytracker.dto.TransactionDto">
+        select * from transactions where user_id = #{userId}
+    </select>
+</mapper>
