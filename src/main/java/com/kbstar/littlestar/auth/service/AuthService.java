@@ -73,7 +73,10 @@ public class AuthService {
 
 		// 보유 포켓몬 주입
 		List<UserPokemon> pokemons = userPokemonMapper.findByUserId(user.getId());
-		pokemons.forEach(user::addPokemon);
+		// forEach 대신 일반 for 루프 사용
+		for (UserPokemon pokemon : pokemons) {
+			user.addPokemon(pokemon);
+		}
 
 		// 세션 저장
 		session.setAttribute("user", user);
@@ -91,7 +94,10 @@ public class AuthService {
 		user.getUserPokemons().clear();
 
 		List<UserPokemon> userPokemons = userPokemonMapper.findByUserId(user.getId());
-		userPokemons.forEach(user::addPokemon);
+		// forEach 대신 일반 for 루프 사용
+		for (UserPokemon userPokemon : userPokemons) {
+			user.addPokemon(userPokemon);
+		}
 		return user;
 	}
 

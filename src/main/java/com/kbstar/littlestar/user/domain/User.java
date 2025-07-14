@@ -34,7 +34,14 @@ public class User {
             userPokemons = new ArrayList<>();
         }
         // 중복 방지
-        if (userPokemons.stream().noneMatch(up -> up.getPokemon().getId().equals(userPokemon.getPokemon().getId()))) {
+        boolean exists = false;
+        for (UserPokemon up : userPokemons) {
+            if (up.getPokemon().getId().equals(userPokemon.getPokemon().getId())) {
+                exists = true;
+                break;
+            }
+        }
+        if (!exists) {
             userPokemons.add(userPokemon);
         }
     }
