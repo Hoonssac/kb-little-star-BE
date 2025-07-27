@@ -26,4 +26,10 @@
         INSERT INTO users (username, password, age, mileage, last_answered_date, main_pokemon_id)
         VALUES (#{username}, #{password}, #{age}, #{mileage}, #{lastAnsweredDate}, #{mainPokemonId});
     </insert>
+
+    <update id="subMileage">
+        update users
+        set mileage = mileage - #{mileage}
+        where username = #{username}
+    </update>
 </mapper>

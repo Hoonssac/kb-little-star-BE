@@ -38,4 +38,12 @@ public class UserService {
     public boolean checkUserName(String username) {
         return userMapper.findByUserName(username) != null;
     }
+
+    public void subMileage(String username, int mileage) {
+        userMapper.subMileage(username, mileage);
+    }
+
+    public User findByUsername(String username) {
+        return userMapper.findByUserName(username);
+    }
 }

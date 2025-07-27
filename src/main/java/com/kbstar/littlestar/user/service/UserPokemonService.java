@@ -37,10 +37,10 @@ public class UserPokemonService {
 		userPokemonMapper.updateMainPokemon(sessionUser.getId(), pokemon.getId());
 
 		// 세션 정보 업데이트
-		sessionUser.updateMainPokemonId(mainPokemonId);
-		session.setAttribute("user", sessionUser);
+		User updatedUser = userService.findByUsername(sessionUser.getUsername());
+		session.setAttribute("user", updatedUser);
 
-		return userService.toUserResponse(sessionUser);
+		return userService.toUserResponse(updatedUser);
 	}
 
 	@Transactional
@@ -60,13 +60,16 @@ public class UserPokemonService {
 			.pokemon(newPokemon)
 			.build();
 
+		// 포켓몬 저장
 		userPokemonMapper.save(userPokemon);
 
-		// 세션 정보 업데이트
-		sessionUser.addPokemon(userPokemon);
-		sessionUser.useMileage(5000);
-		session.setAttribute("user", sessionUser);
+		// 마일리지 차감
+		userService.subMileage(sessionUser.getUsername(), 5000);
 
-		return userService.toUserResponse(sessionUser);
+		// 세션 정보 업데이트
+		User updatedUser = userService.findByUsername(sessionUser.getUsername());
+		session.setAttribute("user", updatedUser);
+
+		return userService.toUserResponse(updatedUser);
 	}
 }

@@ -9,4 +9,5 @@ import com.kbstar.littlestar.user.domain.User;
 public interface UserMapper {
 	User findByUserName(@Param("username") String username);
 	void save(User user);
+	void subMileage(@Param("username") String username, @Param("mileage") int mileage);
 }
