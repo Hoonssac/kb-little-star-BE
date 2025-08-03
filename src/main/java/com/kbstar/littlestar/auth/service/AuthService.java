@@ -90,15 +90,20 @@ public class AuthService {
 			throw new CustomException(AuthErrorCode.USER_NOT_FOUND);
 		}
 
-		// 기존 포켓몬 목록 초기화
-		user.getUserPokemons().clear();
-
-		List<UserPokemon> userPokemons = userPokemonMapper.findByUserId(user.getId());
-		// forEach 대신 일반 for 루프 사용
-		for (UserPokemon userPokemon : userPokemons) {
-			user.addPokemon(userPokemon);
+		// DB에서 최신 정보 조회
+		User freshUser = userMapper.findByUserName(user.getUsername());
+		if (freshUser == null) {
+			throw new CustomException(AuthErrorCode.USER_NOT_FOUND);
 		}
-		return user;
+
+		// 최신 포켓몬 목록 조회하여 직접 설정 (중복 체크 불필요)
+		List<UserPokemon> userPokemons = userPokemonMapper.findByUserId(freshUser.getId());
+		freshUser.setPokemonList(userPokemons);
+
+		// 세션을 최신 정보로 업데이트
+		session.setAttribute("user", freshUser);
+		
+		return freshUser;
 	}
 
 	public void logout(HttpSession session) {

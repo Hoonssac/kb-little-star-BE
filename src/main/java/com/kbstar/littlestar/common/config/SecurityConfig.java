@@ -27,21 +27,25 @@ public class SecurityConfig {
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
         http
-                .csrf(AbstractHttpConfigurer::disable) // 프론트 요청 외에 비활성화
-                .authorizeHttpRequests(auth -> auth
-                        .requestMatchers(
-                                "/api/auth/signup",
-                                "/api/auth/login",
-                                "/api/auth/check-username",
-                                "/api/auth/logout",
-                                "/api/auth/me",
-                                "/api/pokedex/**",
-                                "/api/users/**"
-                        ).permitAll()
-                        .requestMatchers(HttpMethod.PATCH, "/api/users/**").authenticated()
-                        .anyRequest().authenticated())
-                .cors(Customizer.withDefaults()) // ✅ CORS 설정 추가 (Spring Boot 3.x 기준)
-                .httpBasic(AbstractHttpConfigurer::disable); // Basic 인증 사용 안 함
+            .csrf(csrf -> csrf.disable()) // 명시적으로 비활성화
+            .authorizeHttpRequests(auth -> auth
+                .requestMatchers(
+                    "/api/auth/signup",
+                    "/api/auth/login",
+                    "/api/auth/check-username",
+                    "/api/auth/logout",
+                    "/api/auth/me",
+                    "/api/pokedex/**",
+                    "/api/users/**",
+                    "/api/categories",
+                    "/api/categories/**",
+                    "/api/transactions", // 이것도 추가
+                    "/api/transactions/**"
+                ).permitAll()
+                .requestMatchers(HttpMethod.PATCH, "/api/users/**").authenticated()
+                .anyRequest().authenticated())
+            .cors(Customizer.withDefaults())
+            .httpBasic(AbstractHttpConfigurer::disable);
 
         return http.build();
     }
@@ -55,7 +59,7 @@ public class SecurityConfig {
                 registry.addMapping("/**")
                         .allowedOrigins("http://localhost:5173") // Vite 개발 서버
                         .allowedMethods("GET", "POST", "PATCH", "PUT", "DELETE", "OPTIONS")
-                        .allowCredentials(true); // ✅ 세션 쿠키 전달 허용
+                        .allowCredentials(true); // 세션 쿠키 전달 허용
             }
         };
     }

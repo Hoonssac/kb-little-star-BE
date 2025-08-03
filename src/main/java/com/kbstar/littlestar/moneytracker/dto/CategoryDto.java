@@ -1,11 +1,23 @@
 package com.kbstar.littlestar.moneytracker.dto;
 
+import java.util.List;
+
+import com.fasterxml.jackson.annotation.JsonProperty;
+
 import lombok.Data;
 
 @Data
 public class CategoryDto {
-	private int id;
+	private Long id;  // ✅ 이 필드 추가!
+
 	private String name;
-	private boolean isIncome;
-	private int userId;
+
+	@JsonProperty("is_income")
+	private Boolean isIncome;
+
+	@JsonProperty("user_id")
+	private Long userId;
+
+	@JsonProperty("transaction_ids")
+	private List<Long> transactionIds;
 }

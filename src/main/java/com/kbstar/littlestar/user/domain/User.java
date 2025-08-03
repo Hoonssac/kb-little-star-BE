@@ -33,16 +33,19 @@ public class User {
         if (userPokemons == null) {
             userPokemons = new ArrayList<>();
         }
-        // 중복 방지
-        boolean exists = false;
-        for (UserPokemon up : userPokemons) {
-            if (up.getPokemon().getId().equals(userPokemon.getPokemon().getId())) {
-                exists = true;
-                break;
+        // ✅ 동시성 안전을 위한 동기화
+        synchronized (userPokemons) {
+            // 중복 방지
+            boolean exists = false;
+            for (UserPokemon up : userPokemons) {
+                if (up.getPokemon().getId().equals(userPokemon.getPokemon().getId())) {
+                    exists = true;
+                    break;
+                }
             }
-        }
-        if (!exists) {
-            userPokemons.add(userPokemon);
+            if (!exists) {
+                userPokemons.add(userPokemon);
+            }
         }
     }
 
@@ -73,6 +76,11 @@ public class User {
 
     public void useMileage(int useage) {
         this.mileage = this.mileage - useage;
+    }
+
+    // 포켓몬 리스트를 직접 설정하는 메서드 추가
+    public void setPokemonList(List<UserPokemon> userPokemons) {
+        this.userPokemons = userPokemons != null ? userPokemons : new ArrayList<>();
     }
 }
 

@@ -12,9 +12,7 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @Builder
 public class UserPokemon {
-
     private Long id;
     private User user;
     private Pokemon pokemon;
-
 }
