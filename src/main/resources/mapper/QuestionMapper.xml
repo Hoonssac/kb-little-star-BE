@@ -5,7 +5,7 @@
 
 <mapper namespace="com.kbstar.littlestar.quiz.mapper.QuestionMapper">
     <select id="getRandomQuestion" resultType="com.kbstar.littlestar.quiz.domain.Question">
-        select *
+        select id, question, option1, option2, option3, option4, answer, answer_index as answerIndex, explanation, created_at, updated_at
         from question
         order by rand()
         limit 1

@@ -38,4 +38,10 @@
         set mileage = mileage - #{mileage}
         where username = #{username}
     </update>
+
+    <update id="updateAnsweredDate">
+        update users
+        set last_answered_date = #{now}
+        where username = #{username}
+    </update>
 </mapper>

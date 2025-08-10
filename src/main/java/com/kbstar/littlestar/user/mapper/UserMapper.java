@@ -1,5 +1,7 @@
 package com.kbstar.littlestar.user.mapper;
 
+import java.time.LocalDate;
+
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
 
@@ -11,4 +13,5 @@ public interface UserMapper {
 	void save(User user);
 	void subMileage(@Param("username") String username, @Param("mileage") int mileage);
 	void addMileage(@Param("username") String username, @Param("mileage") int mileage);
+	void updateAnsweredDate(@Param("username") String username, LocalDate now);
 }

@@ -5,9 +5,12 @@ import com.kbstar.littlestar.pokemon.mapper.PokemonMapper;
 import com.kbstar.littlestar.user.domain.User;
 import com.kbstar.littlestar.user.dto.UserResponse;
 import com.kbstar.littlestar.user.mapper.UserPokemonMapper;
+
+import jakarta.servlet.http.HttpSession;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDate;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -49,5 +52,10 @@ public class UserService {
 
     public User findByUsername(String username) {
         return userMapper.findByUserName(username);
+    }
+
+    public void updateAnsweredDate(HttpSession session) {
+        User user = (User)session.getAttribute("user");
+        userMapper.updateAnsweredDate(user.getUsername(), LocalDate.now());
     }
 }
