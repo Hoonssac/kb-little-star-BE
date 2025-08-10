@@ -27,7 +27,7 @@ public class SecurityConfig {
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
         http
-            .csrf(csrf -> csrf.disable()) // 명시적으로 비활성화
+            .csrf(csrf -> csrf.disable())
             .authorizeHttpRequests(auth -> auth
                 .requestMatchers(
                     "/api/auth/signup",
@@ -39,8 +39,9 @@ public class SecurityConfig {
                     "/api/users/**",
                     "/api/categories",
                     "/api/categories/**",
-                    "/api/transactions", // 이것도 추가
-                    "/api/transactions/**"
+                    "/api/transactions",
+                    "/api/transactions/**",
+                    "/api/quiz/**"
                 ).permitAll()
                 .requestMatchers(HttpMethod.PATCH, "/api/users/**").authenticated()
                 .anyRequest().authenticated())

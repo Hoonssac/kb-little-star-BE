@@ -8,7 +8,8 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 @MapperScan({
 	"com.kbstar.littlestar.pokemon.mapper",
 	"com.kbstar.littlestar.user.mapper",
-	"com.kbstar.littlestar.moneytracker.mapper"
+	"com.kbstar.littlestar.moneytracker.mapper",
+	"com.kbstar.littlestar.quiz.mapper"
 })
 public class LittlestarApplication {
 	public static void main(String[] args) {
