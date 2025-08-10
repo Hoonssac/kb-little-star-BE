@@ -10,4 +10,5 @@ public interface UserMapper {
 	User findByUserName(@Param("username") String username);
 	void save(User user);
 	void subMileage(@Param("username") String username, @Param("mileage") int mileage);
+	void addMileage(@Param("username") String username, @Param("mileage") int mileage);
 }

@@ -27,6 +27,12 @@
         VALUES (#{username}, #{password}, #{age}, #{mileage}, #{lastAnsweredDate}, #{mainPokemonId});
     </insert>
 
+    <insert id="addMileage">
+        update users
+        set mileage = mileage + #{mileage}
+        where username = #{username}
+    </insert>
+
     <update id="subMileage">
         update users
         set mileage = mileage - #{mileage}

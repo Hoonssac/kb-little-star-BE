@@ -43,6 +43,10 @@ public class UserService {
         userMapper.subMileage(username, mileage);
     }
 
+    public void addMileage(String username, int mileage) {
+        userMapper.addMileage(username, mileage);
+    }
+
     public User findByUsername(String username) {
         return userMapper.findByUserName(username);
     }

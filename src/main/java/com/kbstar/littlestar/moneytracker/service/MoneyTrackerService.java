@@ -10,6 +10,7 @@ import org.springframework.stereotype.Service;
 import com.kbstar.littlestar.moneytracker.dto.CategoryDto;
 import com.kbstar.littlestar.moneytracker.dto.TransactionDto;
 import com.kbstar.littlestar.moneytracker.mapper.MoneyTrackerMapper;
+import com.kbstar.littlestar.user.service.UserService;
 
 import lombok.RequiredArgsConstructor;
 
@@ -18,6 +19,7 @@ import lombok.RequiredArgsConstructor;
 public class MoneyTrackerService {
 
 	private final MoneyTrackerMapper moneyTrackerMapper;
+	private final UserService userService;
 
 	public List<CategoryDto> getCategories(int userId) {
 		return moneyTrackerMapper.getCategories(userId);
@@ -32,8 +34,10 @@ public class MoneyTrackerService {
 		return moneyTrackerMapper.getTransactions(userId);
 	}
 
-	public TransactionDto addTransaction(TransactionDto transaction) {
+	public TransactionDto addTransaction(TransactionDto transaction, HttpSession session) {
 		moneyTrackerMapper.addTransaction(transaction);
+		User user = (User)session.getAttribute("user");
+		userService.addMileage(user.getUsername(), 500);
 		return transaction;
 	}
 

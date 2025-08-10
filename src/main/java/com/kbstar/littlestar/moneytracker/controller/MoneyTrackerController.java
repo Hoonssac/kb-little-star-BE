@@ -16,7 +16,9 @@ import org.springframework.web.bind.annotation.RestController;
 import com.kbstar.littlestar.moneytracker.dto.CategoryDto;
 import com.kbstar.littlestar.moneytracker.dto.TransactionDto;
 import com.kbstar.littlestar.moneytracker.service.MoneyTrackerService;
+import com.kbstar.littlestar.user.service.UserService;
 
+import jakarta.servlet.http.HttpSession;
 import lombok.RequiredArgsConstructor;
 
 @RestController
@@ -24,42 +26,43 @@ import lombok.RequiredArgsConstructor;
 @RequiredArgsConstructor
 public class MoneyTrackerController {
 
-	private final MoneyTrackerService service;
+	private final MoneyTrackerService moneyTrackerService;
+	private final UserService userService;
 
 	@GetMapping("/categories")
 	public ResponseEntity<List<CategoryDto>> getCategories(@RequestParam("user_id") int userId) {
-		List<CategoryDto> categories = service.getCategories(userId);
+		List<CategoryDto> categories = moneyTrackerService.getCategories(userId);
 		return ResponseEntity.ok(categories);
 	}
 
 	@PostMapping("/categories")
 	public ResponseEntity<CategoryDto> addCategory(@RequestBody CategoryDto category) {
-		CategoryDto newCategory = service.addCategory(category);
+		CategoryDto newCategory = moneyTrackerService.addCategory(category);
 		return ResponseEntity.ok(newCategory);
 	}
 
 	@GetMapping("/transactions")
 	public ResponseEntity<List<TransactionDto>> getTransactions(@RequestParam("user_id") int userId) {
-		List<TransactionDto> transactions = service.getTransactions(userId);
+		List<TransactionDto> transactions = moneyTrackerService.getTransactions(userId);
 		return ResponseEntity.ok(transactions);
 	}
 
 	@PostMapping("/transactions")
-	public ResponseEntity<TransactionDto> addTransaction(@RequestBody TransactionDto transaction) {
-		TransactionDto newTransaction = service.addTransaction(transaction);
+	public ResponseEntity<TransactionDto> addTransaction(@RequestBody TransactionDto transaction, HttpSession session) {
+		TransactionDto newTransaction = moneyTrackerService.addTransaction(transaction, session);
 		return ResponseEntity.ok(newTransaction);
 	}
 
 	@PutMapping("/transactions/{transactionId}")
 	public ResponseEntity<TransactionDto> editTransaction(@PathVariable int transactionId,
 		@RequestBody TransactionDto transaction) {
-		TransactionDto updatedTransaction = service.editTransaction(transactionId, transaction);
+		TransactionDto updatedTransaction = moneyTrackerService.editTransaction(transactionId, transaction);
 		return ResponseEntity.ok(updatedTransaction);
 	}
 
 	@DeleteMapping("/transactions/{transactionId}")
 	public ResponseEntity<Void> deleteTransaction(@PathVariable int transactionId) {
-		service.deleteTransaction(transactionId);
+		moneyTrackerService.deleteTransaction(transactionId);
 		return ResponseEntity.ok().build();
 	}
 }
